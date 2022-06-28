@@ -8,7 +8,7 @@ function CategoriesPage(props) {
 
   useEffect(() => {
     loadCategories();
-  }, []);
+  }, [props.username]);
 
   const loadCategories = async () => {
     const data = await contactAPI.getCategories();

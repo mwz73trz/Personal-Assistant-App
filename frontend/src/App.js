@@ -11,23 +11,68 @@ import CreateContactPage from "./pages/contacts/CreateContactPage";
 import ContactPage from "./pages/contacts/ContactPage";
 import UpdateContactPage from "./pages/contacts/UpdateContactPage";
 import DeleteContactPage from "./pages/contacts/DeleteContactPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import CheckLoginPage from "./pages/CheckLoginPage";
+import { useState } from "react";
 
 function App() {
+  const [username, setUsername] = useState("");
+
   return (
     <div className="App">
       <Router>
-        <NavBar />
+        <NavBar username={username} setUsername={setUsername} />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/categories/add" element={<CreateCategoryPage />} />
+          <Route
+            path="/login"
+            element={<LoginPage setUsername={setUsername} />}
+          />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route
+            path="/"
+            element={
+              <CheckLoginPage
+                username={username}
+                actualPage={() => <HomePage username={username} />}
+              />
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <CheckLoginPage
+                username={username}
+                actualPage={() => <CategoriesPage username={username} />}
+              />
+            }
+          />
+          <Route
+            path="/categories/add"
+            element={
+              <CheckLoginPage
+                username={username}
+                actualPage={() => <CreateCategoryPage username={username} />}
+              />
+            }
+          />
           <Route
             path="/categories/:id/update"
-            element={<UpdateCategoryPage />}
+            element={
+              <CheckLoginPage
+                username={username}
+                actualPage={() => <UpdateCategoryPage username={username} />}
+              />
+            }
           />
           <Route
             path="/categories/:id/delete"
-            element={<DeleteCategoryPage />}
+            element={
+              <CheckLoginPage
+                username={username}
+                actualPage={() => <DeleteCategoryPage username={username} />}
+              />
+            }
           />
           <Route path="/categories/:id/contacts" element={<ContactsPage />} />
           <Route
